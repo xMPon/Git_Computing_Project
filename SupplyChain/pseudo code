@@ -1,0 +1,81 @@
+declare language version
+import all classes and modules
+
+connector class:
+    connect to ethernet
+    connect wallet
+
+#information need to be done correctly first time to password revive
+user create class:
+    email
+    username
+    password
+    e-wallet
+
+user class:
+    get username
+    get e-wallet
+    get invoice history
+
+manufacturer stock class:
+    out of stock
+    send message to business
+
+manufacturer class:
+    approves invoices
+    pay distributor
+
+#don't have information about the value of the products transported
+distributor class:
+    location of pickup
+    location of delivery
+
+business class:
+    can create invoices
+    send invoice
+
+invoice history class:
+    date timestamp
+    product name
+    quantity
+    price
+
+#maybe use CSV files for products and fetch only important information
+create invoice class:
+    products
+    quantity
+    price
+
+transaction class:
+    full date timestamp
+    timestamp
+    total price
+    products:
+        product name
+        quantity
+        price
+
+transaction approved class:
+    if quantity doesnt match the order
+        calculate the amount which should be paid
+        send this amount from e-wallet
+    else quality is bad
+        (follow agreed smart contract by both parties)
+    else approve
+        send total price from e-wallet
+
+communication class:
+    establish communication between two users
+
+messaging service class:
+        send message
+
+messaging notification class:
+        get notification
+
+messaging history class:
+    display all messages from the user
+
+
+https://boxaroundtheworld.com/supply-chain-modeling-101/
+https://medium.com/hackernoon/implementing-a-supply-chain-in-the-ethereum-blockchain-dcc91ea718ab

@@ -1,0 +1,60 @@
+{% include "header.html"%}
+	<title>MaChain | Account Page</title>
+	{% block header %}{% endblock %}
+</head>
+<body>
+	{% block message%}
+	{% with messages = get_flashed_messages()%}
+		{% if messages %}
+			{% for message in messages %}
+			<div class="w24 txt-c m-sml mes">
+				<label><b>{{message}}</b></label>
+			</div>
+			{% endfor%}
+		{% endif %}
+	{% endwith%}
+	{% endblock %}
+	<ul id="myTopnav" class="topnav nav1 h2 p-med">
+		<img class =" light logo circle" src="{{url_for('static', filename='logo.jpg')}}" alt="F">
+		<a class="light icon" href="javascript:void(0);" onclick="myCollapse()"><i class="fa fa-bars option_icon"></i></a>
+		{% if login_status != '1' %}
+			<button onclick="document.getElementById('reg').style.display='block'" class="navbtn nb" style="width:auto; float:right;">Register</button>
+			<button onclick="document.getElementById('log').style.display='block'" class="navbtn nb">Login</button>
+		{% else %}
+			<button onclick="window.location.href='{{ url_for('logout') }}';" class="navbtn nb">X</button>
+		{% endif %}
+	</ul>
+
+	<div id="log" class="pop">
+	  <form class="pop-content animate" action="/login" method="post">
+		<div class="loginsize">
+		  <label for="uname"><b>Username</b></label><span onclick="document.getElementById('log').style.display='none'" class="close">&times;</span>
+		  <input type="username" placeholder="Enter Username" name="uname" required>
+		  <label for="psw"><b>Password</b></label>
+		  <input type="password" placeholder="Enter Password" name="psw" required>
+		  <button type="submit">Login</button>
+		</div>
+	  </form>
+	</div>
+
+	<div id="reg" class="pop">
+	  <form class="pop-content animate" action="/register" method="post" name="registrationform" onsubmit="return validateRegistration();">
+		<div class="loginsize">
+		  <label for="uname"><b>Username</b></label> <span onclick="document.getElementById('reg').style.display='none'" class="close">&times;</span>
+		  <input type="username" id="username" placeholder="Enter Username" onchange="validateUsername();" name="uname" required>
+		  <input type="hidden" id="alreadyusername" name="alreadyusername" value="1"/>
+          <div class="status" id="username_error" style='color:red;'></div>
+		  <label for="psw"><b>Password</b></label>
+		  <input type="password" id="password" placeholder="Enter Password" name="psw" required>
+		  <div class="status" id="password_error" style='color:red;'></div>
+		  <label for="psw"><b>Confirm Password</b></label>
+		  <input type="password" id="cpassword" placeholder="Password" name="cpsw" required>
+		  <div class="status" id="cpassword_error" style='color:red;'></div>
+		  <button type="submit">Register</button>
+		</div>
+	  </form>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="scripts.js"></script>
+	{% block body %}{% endblock %}
+{% include "footer.html"%}
