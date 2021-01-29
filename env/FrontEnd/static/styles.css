@@ -1,0 +1,12 @@
+body {
+    background-color: black;
+    color:green;
+}
+.box{
+    position: 5% auto 15% auto;
+
+}
+.button{
+    margin:1%;
+    border: 2px dashed green;
+}
