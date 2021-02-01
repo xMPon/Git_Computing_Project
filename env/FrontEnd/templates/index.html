@@ -1,15 +1,18 @@
 {% include "head.html" %}
+<head>
+	<title>MaChain | Login</title>
+</head>
 {% block body %}
 <header class="w24 h2 red row"></header>
 <div class="w24 h20 txt-c">
-  <form class="box" action="/reg" method="post">
-	  <label for="mail"></label><input type="email" placeholder="Enter Username" name="email" required>
-	  <label for="wallet"></label><input type="e_wallet" placeholder="Enter E-Wallet" name="wallet" required>
-	  <label for="psw"></label><input type="password" placeholder="Enter Password" name="psw" required>
-	  <label for="psw"></label><input type="password" placeholder="Repeat Password" name="psw" required>
-	  <button class="button" type="submit">Register</button>
+  <form class="box" action="/login" method="POST">
+	  <input type="email" name="email" placeholder="Enter Username" required>
+	  <input type="password" name="password" placeholder="Enter Password" required>
+	  <button class="button" type="submit">Login</button>
   </form>
+	<form action="/register" class="inline">
+    	<button class="register">Sign Up Here</button>
+	</form>
 </div>
 {%endblock%}
 {% include "footer.html" %}
-</html>
