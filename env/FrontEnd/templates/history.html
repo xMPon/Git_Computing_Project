@@ -1,16 +1,17 @@
 {% include "head.html" %}
 <head>
-	<title>MaChain | Profile</title>
+	<title>MaChain | History</title>
 </head>
 {% block body %}
 	{% include "nav.html" %}
 	<div class="w24 h20 txt-c">
-		<div class="profile">
+		<div class="history">
 		{% if 'user_id' in session%}
-			<h1>Username: {{g.user.email}}</h1>
-			<h1>Ewallet:  {{g.user.ewallet}}</h1>
+            <div>
+				<!--LIST OF ORDERS BY THE DATE DECREASING-->
+            </div>
 		{%else%}
-			<h1>You are not logged in...</h1>
+			<h1>You don't have any transactions to display...</h1>
 		{%endif%}
 		</div>
 	</div>

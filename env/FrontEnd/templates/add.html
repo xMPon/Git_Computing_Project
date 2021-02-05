@@ -1,0 +1,24 @@
+{% include "head.html" %}
+<head>
+	<title>MaChain | Order</title>
+</head>
+{% block body %}
+	{% include "nav.html" %}
+	<div class="w24 h20 txt-c">
+		<div class="order">
+		{% if 'user_id' in session and g.user.business == 'seller'%}
+            <div>
+				<!--Add Items for sale-->
+            </div>
+        {%elif 'user_id' in session and g.user.business == 'buyer'%}
+            <div>
+				<!--Pick Items to buy from the list-->
+            </div>
+		{%else%}
+			<h1>There is a problem with order transactions...</h1>
+		{%endif%}
+		</div>
+	</div>
+{%endblock%}
+{% include "footer.html" %}
+</html>

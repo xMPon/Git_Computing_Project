@@ -1,16 +1,54 @@
 body {
-    background-color: black;
-    color:green;
+    background-color: #000;
+    color:#008000;
 }
-.box{
-    position: 5% auto 15% auto;
-
-}
-.button{
+button {
     margin:1%;
-    border: 2px dashed green;
+    background:black;
+    border: 2px dashed #008000;
+    outline: none;
+    border: none;
+    background: none;
+    color: none !important;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
 }
-.switch{
-    border: 2px dashed green;
+.newnav ul {
+  list-style: none;
+  background-color: #444;
+  text-align: center;
+  padding: 5px;
+  margin: 0;
 }
+.newnav li {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2em;
+  text-decoration: none;
+}
+.newnav a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: .3s background-color: black;
+}
+.newnav a:hover {
+    decoration:none;
 
+}
+.newnav a.active {
+  background-color: #fff;
+  color: #444;
+  cursor: default;
+}
+.profile {
+    # this need to be positioned well
+
+}
+.history {
+    # this need to be positioned well
+
+}
+.order {
+    # this need to be positioned well
+
+}

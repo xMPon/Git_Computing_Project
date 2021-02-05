@@ -3,16 +3,16 @@
 	<title>MaChain | Login</title>
 </head>
 {% block body %}
-<header class="w24 h2 red row"></header>
-<div class="w24 h20 txt-c">
-  <form class="box" action="/login" method="POST">
-	  <input type="email" name="email" placeholder="Enter Username" required>
-	  <input type="password" name="password" placeholder="Enter Password" required>
-	  <button class="button" type="submit">Login</button>
-  </form>
-	<form action="/register" class="inline">
-    	<button class="register">Sign Up Here</button>
-	</form>
-</div>
+	<header class="w24 h2 row"></header>
+	<div class="w24 h20 txt-c">
+	  <form class="p-vlrg" action="/login" method="POST">
+		  <input type="email" name="email" placeholder="Enter Username" required>
+		  <input type="password" name="password" placeholder="Enter Password" required>
+		  <button type="submit">Login</button>
+	  </form>
+		<form action="/register" class="inline">
+			<button>Sign Up Here</button>
+		</form>
+	</div>
 {%endblock%}
 {% include "footer.html" %}

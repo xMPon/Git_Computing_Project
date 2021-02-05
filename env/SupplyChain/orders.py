@@ -1,2 +1,0 @@
-class UsersData(object):
-    order = []

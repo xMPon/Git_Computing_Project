@@ -1,6 +1,4 @@
-import hashlib
-import time
-from env.BlockChain.chain import Chain
+from env.BackEnd.chain import Chain
 
 
 b = Chain()

@@ -3,14 +3,14 @@
 	<title>MaChain | Choose One</title>
 </head>
 {% block body %}
-<header class="w24 h2 row"></header>
-<div class="w24 h20 txt-c">
-    <h1>Choose One:</h1>
-    <form class="box" action="/choice" method="POST">
-	  <input type="submit" name="submit_button" class="button" value="seller">
-      <input type="submit" name="submit_button" class="button" value="buyer">
-    </form>
-</div>
+    <header class="w24 h2 row"></header>
+    <div class="w24 h20 txt-c">
+        <h1>Choose One:</h1>
+        <form class="box" action="/choice" method="POST">
+          <input type="submit" name="submit_button" class="button" value="seller">
+          <input type="submit" name="submit_button" class="button" value="buyer">
+        </form>
+    </div>
 {%endblock%}
 {% include "footer.html" %}
 </html>
