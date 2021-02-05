@@ -77,20 +77,17 @@ def register():
         new_password = request.form['password']
         new_password2 = request.form['password2']
         if new_password == new_password2:
-            #  add variable choice_r = True which enables user to access '/choice'
-            return render_template('choice.html',
-                                   new_email=new_email,
-                                   new_ewallet=new_ewallet,
-                                   new_password=new_password)
+            choice(new_email, new_ewallet, new_password)
+            return render_template('choice.html')
         else:
             return render_template('register.html')
     return render_template('register.html')
 
 
 @app.route('/choice', methods=['GET', 'POST'])
-def choice():
+def choice(new_email, new_ewallet, new_password):
+    print(new_email)
     if request.method == 'POST':
-        new_email, new_password, new_ewallet = register()  # This is my biggest problem so far...
         #  ...if check the list for email and business = "" (dead link from login)
         if request.form['submit_button'] == 'buyer':
             users.append(User(business='buyer',
