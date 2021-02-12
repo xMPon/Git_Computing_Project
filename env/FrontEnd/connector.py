@@ -10,7 +10,6 @@ from flask import (Flask,
 from env.BackEnd.businesses import User
 from env.BackEnd.orders import UsersData
 
-
 app = Flask(__name__)
 app.secret_key = '498hfg2rn29'
 app.permanent_session_lifetime = timedelta(minutes=10)
@@ -77,19 +76,19 @@ def register():
         new_password = request.form['password']
         new_password2 = request.form['password2']
         if new_password == new_password2:
-            choice(new_email, new_ewallet, new_password)
-            return render_template('choice.html')
+            return redirect(url_for('choice', new_email=new_email, new_ewallet=new_ewallet, new_password=new_password))
         else:
             return render_template('register.html')
     return render_template('register.html')
 
 
 @app.route('/choice', methods=['GET', 'POST'])
-def choice(new_email, new_ewallet, new_password):
-    print(new_email)
+def choice():
+    new_email, new_ewallet, new_password = register()
+    print(new_email, new_ewallet, new_password)
     if request.method == 'POST':
         #  ...if check the list for email and business = "" (dead link from login)
-        if request.form['submit_button'] == 'buyer':
+        if request.form['submit_button'] == 'buyer':  # crashes here.......
             users.append(User(business='buyer',
                               email=new_email,
                               password=new_password,
