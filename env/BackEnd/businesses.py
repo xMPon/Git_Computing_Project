@@ -10,4 +10,4 @@ class User:
         self.ewallet = ewallet
 
     def __repr__(self):
-        return f'<User:{self.email}>'
+        return f'{self.email}'

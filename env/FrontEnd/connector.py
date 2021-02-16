@@ -1,36 +1,31 @@
 # import all flask libraries required
-from datetime import timedelta
-from flask import (Flask,
-                   render_template,
-                   request,
-                   redirect,
-                   url_for,
-                   session,
-                   g)
-from env.BackEnd.businesses import User
+from flask import (Flask, render_template,
+                   request, redirect,
+                   url_for, session, g)
 from env.BackEnd.orders import UsersData
+from env.BackEnd.businesses import User
+from env.BackEnd.item import Item
+from datetime import timedelta
+import datetime
 
 app = Flask(__name__)
 app.secret_key = '498hfg2rn29'
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 users = []
-users.append(User(business='seller', email='n@a', password='p', ewallet='WTDsdg43f23g2'))
-users.append(User(business='buyer', email='o@a', password='p', ewallet='3f4d3d33f3f'))
+users.append(User(business='seller', email='a@a', password='a', ewallet='WTDsdg43f23g2'))
+users.append(User(business='seller', email='b@b', password='b', ewallet='f343f34f34f'))
+users.append(User(business='buyer', email='o@o', password='o', ewallet='3f4d3d33f3f'))
 users.append(User(business='buyer', email='two@gmail.com', password='pass3', ewallet='WTDsd34f3f3g43f23g2'))
-print(users)
-
+items = []
+items.append(Item(item_id='1', seller='a@a', description='Metal', quantity=20, price=300, date='02/12/21'))
+items.append(Item(item_id='2', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='3', seller='b@b', description='Coal', quantity=10, price=199, date='02/12/21'))
+items.append(Item(item_id='4', seller='b@b', description='Iron', quantity=1000, price=50, date='02/12/21'))
 orders = []
-orders.append(UsersData(transaction_id='1',
-                        seller='n@a',
-                        buyer='o@a',
-                        seller_wallet='WTDsdg43f23g2',
-                        buyer_wallet='3f4d3d33f3f',
-                        item='Metal',
-                        quantity=20,
-                        price=300.90,
-                        date=''))
-print(orders)
+orders.append(
+    UsersData(seller='a@a', buyer='o@o', seller_wallet='WTDsdg43f23g2',
+              buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
 
 
 @app.before_request
@@ -38,6 +33,8 @@ def before_request():
     if 'user_id' in session:
         user = [x for x in users if x.email == session['user_id']][0]
         g.user = user
+        global items
+        global orders
 
 
 @app.route('/')
@@ -56,27 +53,23 @@ def login():
         user = [x for x in users if x.email == email][0]
         if user and user.password == password:
             session['user_id'] = user.email
-            if user.business == 'buyer':
-                return redirect(url_for('buyer'))
-            elif user.business == 'seller':
-                return redirect(url_for('seller'))
-            else:
-                # this leads to broken page as it won't load the data from the list
-                # try to pass the information and add business type in /choice
-                return render_template('choice.html', email=email, password=password)
+            return redirect(url_for('add'))
         return redirect(url_for('index'))
     return redirect(url_for('index'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    global n_email
+    global n_ewallet
+    global n_password
     if request.method == 'POST':
-        new_email = request.form['email']
-        new_ewallet = request.form['ewallet']
-        new_password = request.form['password']
-        new_password2 = request.form['password2']
-        if new_password == new_password2:
-            return redirect(url_for('choice', new_email=new_email, new_ewallet=new_ewallet, new_password=new_password))
+        n_email = request.form['email']
+        n_ewallet = request.form['ewallet']
+        n_password = request.form['password']
+        n_password2 = request.form['password2']
+        if n_password == n_password2:
+            return redirect(url_for('choice'))
         else:
             return render_template('register.html')
     return render_template('register.html')
@@ -84,49 +77,80 @@ def register():
 
 @app.route('/choice', methods=['GET', 'POST'])
 def choice():
-    new_email, new_ewallet, new_password = register()
-    print(new_email, new_ewallet, new_password)
     if request.method == 'POST':
         #  ...if check the list for email and business = "" (dead link from login)
         if request.form['submit_button'] == 'buyer':  # crashes here.......
             users.append(User(business='buyer',
-                              email=new_email,
-                              password=new_password,
-                              ewallet=new_ewallet))
-            session['user_id'] = new_email
-            return redirect(url_for('buyer'))
+                              email=n_email,
+                              password=n_password,
+                              ewallet=n_ewallet))
+            session['user_id'] = n_email
+            return redirect(url_for('profile'))
         elif request.form['submit_button'] == 'seller':
             users.append(User(business='seller',
-                              email=new_email,
-                              password=new_password,
-                              ewallet=new_ewallet))
-            print(users)
-            session['user_id'] = new_email
-            return redirect(url_for('seller'))
+                              email=n_email,
+                              password=n_password,
+                              ewallet=n_ewallet))
+            session['user_id'] = n_email
+            return redirect(url_for('profile'))
         else:
             return render_template('choice.html')
     return render_template('choice.html')
-
-
-@app.route('/buyer', methods=['GET', 'POST'])
-def buyer():
-    if not g.user:
-        return redirect(url_for('index'))
-    return render_template('buyer.html')
-
-
-@app.route('/seller', methods=['GET', 'POST'])
-def seller():
-    if not g.user:
-        return redirect(url_for('index'))
-    return render_template('seller.html')
 
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if not g.user:
         return redirect(url_for('index'))
-    return render_template('add.html')
+    elif request.method == 'POST' and g.user.business == 'seller':
+        item_id = [i for i, x in enumerate(items)]
+        print(item_id)
+        item_id = item_id[-1]
+        item_id += 1 # finished here
+        print(item_id)
+        seller = g.user
+        description = request.form['description']
+        quantity = int(request.form['quantity'])
+        price = int(request.form['price'])
+        date = datetime.datetime.now()
+        date = date.strftime("%x")
+        items.append(Item(item_id=item_id,
+                          seller=seller,
+                          description=description,
+                          quantity=quantity,
+                          price=price,
+                          date=date))
+        print(items)
+        return redirect(url_for('add', item=items))
+    elif request.method == 'POST' and g.user.business == 'buyer':
+        seller = request.form['seller']
+        buyer = g.user
+        buyer_wallet = g.user.ewallet
+        seller = [x for x in users if x.email == seller][0]
+        seller_wallet = seller.ewallet
+        description = request.form['description']
+        stock_quantity = int(request.form['stock_quantity'])
+        price = int(request.form['price'])
+        buy_quantity = int(request.form['buy_quantity'])
+        price = int(buy_quantity * price)
+        date = datetime.datetime.now()
+        date = date.strftime("%x")
+        if buy_quantity > stock_quantity:
+            return redirect(url_for('add'))
+        else:
+            # item_id = [x for x in items if x.seller == seller]
+            # print(item_id.item_id)
+            orders.append(UsersData(seller=seller,
+                                    buyer=buyer,
+                                    seller_wallet=seller_wallet,
+                                    buyer_wallet=buyer_wallet,
+                                    item=description,
+                                    quantity=buy_quantity,
+                                    price=price,
+                                    date=date))
+        return redirect(url_for('add'))
+    else:
+        return render_template('add.html', item=items)
 
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -140,7 +164,7 @@ def profile():
 def history():
     if not g.user:
         return redirect(url_for('index'))
-    return render_template('history.html')
+    return render_template('history.html', order=orders)
 
 
 @app.route('/out')

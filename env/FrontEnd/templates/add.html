@@ -4,21 +4,67 @@
 </head>
 {% block body %}
 	{% include "nav.html" %}
-	<div class="w24 h20 txt-c">
-		<div class="order">
+	<div class="w1 h20 fl"></div>
+	<div class="w22 h20 txt-c fl">
 		{% if 'user_id' in session and g.user.business == 'seller'%}
-            <div>
-				<!--Add Items for sale-->
+			<div class="w12 white fl">
+				<div class="row txt-sml h1 fl">
+					<div class="fl w12 txt-l">Description</div>
+					<div class="fl w4">Quantity</div>
+					<div class="fl w4">Price</div>
+					<div class="fl w4">Added</div>
+				</div>
+				{% for x in item %}
+					{% if x['seller'] == g.user.email%}
+						<div class="row txt-sml h1 fl">
+							<div class="fl w12 txt-l">{{x['description']}}</div>
+							<div class="fl w4">{{x['quantity']}}</div>
+							<div class="fl w4">£{{x['price']}}</div>
+							<div class="fl w4">{{x['date']}}</div>
+						</div>
+					{%endif%}
+				{%else%}
+					<p class="border">You have no items listed for sale</p>
+				{%endfor%}
+			</div>
+            <div class="w12 fl">	<!--Add Items for sale-->
+					<form action="/add" method="POST">
+						<input class="ma btn h1 w20 m-sml border" type="text" name="description" placeholder="Item Description" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="quantity" min="1" placeholder="Quantity" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="price" min="1" placeholder="Price" required>
+						<button class="ma btn fr m-vlrg border" type="submit" id="add_submit">Add Item</button>
+					</form>
             </div>
         {%elif 'user_id' in session and g.user.business == 'buyer'%}
-            <div>
-				<!--Pick Items to buy from the list-->
-            </div>
+				<div class=" row h2 border fl">
+					<div class="fl w4 txt-l">Seller</div>
+					<div class="fl w6 txt-l">Description</div>
+					<div class="fl w2">Quantity</div>
+					<div class="fl w3">Price</div>
+					<div class="fl w3">Date</div>
+					<div class="fl w4">Quantity to Purchase</div>
+					<div class="fl w1"></div>
+				</div>
+				{% for x in item %}
+					<div class="txt-sml row h2 white fl">
+						<form action="/add" method="POST">
+						<div class="fl w4 txt-l hidden"><input type="hidden" name="seller" value="{{x['seller']}}">{{x['seller']}}</div>
+						<div class="fl w6 txt-l"><input type="hidden" name="description" value="{{x['description']}}">{{x['description']}}</div>
+						<div class="fl w2"><input type="hidden" name="stock_quantity" value="{{x['quantity']}}">{{x['quantity']}}</div>
+						<div class="fl w3"><input type="hidden" name="price" value="{{x['price']}}">£{{x['price']}}</div>
+						<div class="fl w3"><input type="hidden" name="date" value="{{x['date']}}">{{x['date']}}</div>
+						<div class="fl w4"><input class="w8" type="number" name="buy_quantity" min="1" placeholder="Quantity"></div>
+						<div class="fl w1"><button class="btn border txt-sml" type="submit" id="buy_submit">Buy</button></div>
+						</form>
+					</div>
+				{%else%}
+					<p class="border">You have no items listed for sale</p>
+				{%endfor%}
 		{%else%}
 			<h1>There is a problem with order transactions...</h1>
 		{%endif%}
-		</div>
 	</div>
+	<div class="w1 h20 fl"></div>
 {%endblock%}
 {% include "footer.html" %}
 </html>

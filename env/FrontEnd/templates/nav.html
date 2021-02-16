@@ -1,12 +1,11 @@
 {% block nav %}
-<div class="h1 row"></div>
 <header>
-    <ul class="h6 topnav">
-        <li onclick="window.location.href='{{url_for('add')}}';" class="w4 switch btn"><a>Add Items</a></li>
+    <ul class="h5 topnav">
+        <li onclick="window.location.href='{{url_for('add')}}';" class="w4 switch btn"><a>Add Order</a></li>
         <li onclick="window.location.href='{{url_for('history')}}';" class="w4 switch btn"><a>Order History</a></li>
         <li onclick="window.location.href='{{url_for('profile')}}';" class="w4 switch btn"><a>Account Info</a></li>
-        <li onclick="window.location.href='{{url_for('out')}}';" class="w4 switch btn"><a>Another One</a></li>
-        <li class="fr"><button class="switch btn" onclick="window.location.href='{{url_for('out')}}';">X</button></li>
+        <li class="w4 "><a></a></li>
+        <li class="fr"><button class="switch btn border" onclick="window.location.href='{{url_for('out')}}';">Close X</button></li>
     </ul>
 </header>
 {%endblock%}

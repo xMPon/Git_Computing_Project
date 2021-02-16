@@ -2,7 +2,17 @@ body {
     background-color: #000;
     color:#008000;
 }
-
+.border {
+	border:2px dotted green;
+	background: black;
+	color: white;
+}
+.qborder{
+	border:1px solid white;
+	color: white;
+}
+.hidden{border-left: 5px dotted black;}
+.white{color: white;}
 .newnav ul {
   list-style: none;
   background-color: #444;
