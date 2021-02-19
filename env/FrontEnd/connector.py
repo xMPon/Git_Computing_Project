@@ -20,11 +20,25 @@ users.append(User(business='buyer', email='two@gmail.com', password='pass3', ewa
 items = []
 items.append(Item(item_id='1', seller='a@a', description='Metal', quantity=20, price=300, date='02/12/21'))
 items.append(Item(item_id='2', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='3', seller='b@b', description='Coal', quantity=10, price=199, date='02/12/21'))
-items.append(Item(item_id='4', seller='b@b', description='Iron', quantity=1000, price=50, date='02/12/21'))
+items.append(Item(item_id='3', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='4', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='5', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='6', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='7', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='8', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='9', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='10', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='11', seller='b@b', description='Coal', quantity=10, price=199, date='02/12/21'))
+items.append(Item(item_id='12', seller='b@b', description='Iron', quantity=1000, price=50, date='02/12/21'))
 orders = []
 orders.append(
     UsersData(seller='a@a', buyer='o@o', seller_wallet='WTDsdg43f23g2',
+              buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(
+    UsersData(seller='a@a', buyer='two@gmail.com', seller_wallet='WTDsdg43f23g2',
+              buyer_wallet='WTDsd34f3f3g43f23g2', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(
+    UsersData(seller='b@b', buyer='o@o', seller_wallet='f343f34f34f',
               buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
 
 
@@ -69,9 +83,15 @@ def register():
         n_password = request.form['password']
         n_password2 = request.form['password2']
         if n_password == n_password2:
+            for credit in users:
+                if n_email == credit.email \
+                        or n_password == credit.password \
+                        or n_ewallet == credit.ewallet:
+                    print("Email, Password or Ewallet Already Used")
+                    return redirect(url_for('register'))
             return redirect(url_for('choice'))
         else:
-            return render_template('register.html')
+            return redirect(url_for('register'))
     return render_template('register.html')
 
 
@@ -79,7 +99,7 @@ def register():
 def choice():
     if request.method == 'POST':
         #  ...if check the list for email and business = "" (dead link from login)
-        if request.form['submit_button'] == 'buyer':  # crashes here.......
+        if request.form['submit_button'] == 'buyer':
             users.append(User(business='buyer',
                               email=n_email,
                               password=n_password,
@@ -103,26 +123,22 @@ def add():
     if not g.user:
         return redirect(url_for('index'))
     elif request.method == 'POST' and g.user.business == 'seller':
-        item_id = [i for i, x in enumerate(items)]
-        print(item_id)
-        item_id = item_id[-1]
-        item_id += 1 # finished here
-        print(item_id)
+        item_id_new = [n.item_id for n in items][-1] + 1
         seller = g.user
         description = request.form['description']
         quantity = int(request.form['quantity'])
         price = int(request.form['price'])
         date = datetime.datetime.now()
         date = date.strftime("%x")
-        items.append(Item(item_id=item_id,
+        items.append(Item(item_id=item_id_new,
                           seller=seller,
                           description=description,
                           quantity=quantity,
                           price=price,
                           date=date))
-        print(items)
-        return redirect(url_for('add', item=items))
+        return render_template('add.html', item=items, order=orders)
     elif request.method == 'POST' and g.user.business == 'buyer':
+        retrieve_id = int(request.form['retrieve_id'])
         seller = request.form['seller']
         buyer = g.user
         buyer_wallet = g.user.ewallet
@@ -136,10 +152,9 @@ def add():
         date = datetime.datetime.now()
         date = date.strftime("%x")
         if buy_quantity > stock_quantity:
+            print("Order is too big")
             return redirect(url_for('add'))
         else:
-            # item_id = [x for x in items if x.seller == seller]
-            # print(item_id.item_id)
             orders.append(UsersData(seller=seller,
                                     buyer=buyer,
                                     seller_wallet=seller_wallet,
@@ -148,9 +163,13 @@ def add():
                                     quantity=buy_quantity,
                                     price=price,
                                     date=date))
-        return redirect(url_for('add'))
+            new_quantity = stock_quantity - buy_quantity
+            for x in items:
+                if x.item_id == retrieve_id:
+                    x.quantity = new_quantity
+        return render_template('add.html', item=items, order=orders)
     else:
-        return render_template('add.html', item=items)
+        return render_template('add.html', item=items, order=orders)
 
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -191,3 +210,4 @@ def page_not_found_500():
 
 if __name__ == '__main__':
     app.run(debug=True)  # delete debugging when finished
+    app.run(use_reloader=True)

@@ -7,7 +7,7 @@
 	<div class="w1 h20 fl"></div>
 	<div class="w22 h20 txt-c fl">
 		{% if 'user_id' in session%}
-		<div class="row white h2">	<!--LIST OF ORDERS BY THE DATE DECREASING-->
+		<div class="row white h2">
 			<div class="fl w4 txt-l">SELLER</div>
 			<div class="fl w4 txt-l">BUYER</div>
 			<div class="fl w8 txt-l">DESCRIPTION</div>
@@ -15,8 +15,8 @@
 			<div class="fl w2">PRICE</div>
 			<div class="fl w3">DATE</div>
 		</div>
-			{% for x in order %}
-				{% if g.user.email == x['seller'] or x['buyer']%}
+			{% for x in order%}
+				{% if x['seller'] == g.user.email or x['buyer'] == g.user.email %}
 					<div class="row qborder h2">	<!--LIST OF ORDERS BY THE DATE DECREASING-->
 						<div class="fl w4 txt-l">{{x['seller']}}</div>
 						<div class="fl w4 txt-l">{{x['buyer']}}</div>
@@ -25,10 +25,10 @@
 						<div class="fl w2">£{{x['price']}}</div>
 						<div class="fl w3">{{x['date']}}</div>
 					</div>
-				{%endif%}
+					{%endif%}
+			{%else%} <!-- this is misplaced but it doesnt work...-->
+				<h1>You don't have any transactions</h1>
 			{%endfor%}
-		{%else%}
-			<h1>You don't have any transactions to display...</h1>
 		{%endif%}
 	</div>
 	<div class="w1 h20 fl"></div>

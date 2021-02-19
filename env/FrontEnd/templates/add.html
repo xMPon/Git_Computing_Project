@@ -9,18 +9,22 @@
 		{% if 'user_id' in session and g.user.business == 'seller'%}
 			<div class="w12 white fl">
 				<div class="row txt-sml h1 fl">
-					<div class="fl w12 txt-l">Description</div>
-					<div class="fl w4">Quantity</div>
+					<div class="fl w11 txt-l">Description</div>
+					<div class="fl w3">Quantity</div>
 					<div class="fl w4">Price</div>
 					<div class="fl w4">Added</div>
+					<div class="fl w2"></div>
 				</div>
 				{% for x in item %}
 					{% if x['seller'] == g.user.email%}
 						<div class="row txt-sml h1 fl">
-							<div class="fl w12 txt-l">{{x['description']}}</div>
-							<div class="fl w4">{{x['quantity']}}</div>
+							<div class="fl w11 txt-l">{{x['description']}}</div>
+							<div class="fl w3">{{x['quantity']}}</div>
 							<div class="fl w4">£{{x['price']}}</div>
 							<div class="fl w4">{{x['date']}}</div>
+							<div class="fl w2">
+								<input type="checkbox" id="check" class="check" onclick="myFunction()" value=x['item_id']>
+							</div>
 						</div>
 					{%endif%}
 				{%else%}
@@ -34,6 +38,14 @@
 						<input class="ma btn h1 w20 m-sml border" type="number" name="price" min="1" placeholder="Price" required>
 						<button class="ma btn fr m-vlrg border" type="submit" id="add_submit">Add Item</button>
 					</form>
+					<br>
+					<br>
+					<form id="time_to_change" style="display:none" action="/change" method="POST">
+						<input class="ma btn h1 w20 m-sml border" type="text" name="description" placeholder="Item Description" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="quantity" min="1" placeholder="Quantity" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="price" min="1" placeholder="Price" required>
+						<button class="ma btn fr m-vlrg border" type="submit" id="change_submit">Update Item</button>
+					</form>
             </div>
         {%elif 'user_id' in session and g.user.business == 'buyer'%}
 				<div class=" row h2 border fl">
@@ -42,12 +54,13 @@
 					<div class="fl w2">Quantity</div>
 					<div class="fl w3">Price</div>
 					<div class="fl w3">Date</div>
-					<div class="fl w4">Quantity to Purchase</div>
+					<div class="fl w4">Purchase</div>
 					<div class="fl w1"></div>
 				</div>
 				{% for x in item %}
 					<div class="txt-sml row h2 white fl">
 						<form action="/add" method="POST">
+						<div style="display:none"><input type="hidden" name="retrieve_id" value="{{x['item_id']}}"></div>
 						<div class="fl w4 txt-l hidden"><input type="hidden" name="seller" value="{{x['seller']}}">{{x['seller']}}</div>
 						<div class="fl w6 txt-l"><input type="hidden" name="description" value="{{x['description']}}">{{x['description']}}</div>
 						<div class="fl w2"><input type="hidden" name="stock_quantity" value="{{x['quantity']}}">{{x['quantity']}}</div>
