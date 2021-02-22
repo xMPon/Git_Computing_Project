@@ -25,3 +25,7 @@ class Block(object):  # declare individual blocks
                                                self.previous_hash,
                                                self.data,
                                                self.timestamp)
+
+
+# https://stackoverflow.com/questions/18980396/building-a-list-inside-a-list-in-python
+# needed to connect with the front end

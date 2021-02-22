@@ -23,7 +23,7 @@
 							<div class="fl w4">£{{x['price']}}</div>
 							<div class="fl w4">{{x['date']}}</div>
 							<div class="fl w2">
-								<input type="checkbox" id="check" class="check" onclick="myFunction()" value=x['item_id']>
+								<input type="checkbox" id="check" onclick="myFunction()">
 							</div>
 						</div>
 					{%endif%}
@@ -41,9 +41,10 @@
 					<br>
 					<br>
 					<form id="time_to_change" style="display:none" action="/change" method="POST">
-						<input class="ma btn h1 w20 m-sml border" type="text" name="description" placeholder="Item Description" required>
-						<input class="ma btn h1 w20 m-sml border" type="number" name="quantity" min="1" placeholder="Quantity" required>
-						<input class="ma btn h1 w20 m-sml border" type="number" name="price" min="1" placeholder="Price" required>
+						<input style="display:none" type="hidden" name="retrieve_id" id="pass_it" value="item_id">
+						<input class="ma btn h1 w20 m-sml border" type="text" name="updated_description" placeholder="Type in the exact item description" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="updated_quantity" placeholder="New Quantity" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="updated_price" placeholder="New Price" required>
 						<button class="ma btn fr m-vlrg border" type="submit" id="change_submit">Update Item</button>
 					</form>
             </div>

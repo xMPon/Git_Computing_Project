@@ -167,9 +167,36 @@ def add():
             for x in items:
                 if x.item_id == retrieve_id:
                     x.quantity = new_quantity
+                if x.quantity == 0:
+                    items.remove(x)
         return render_template('add.html', item=items, order=orders)
     else:
         return render_template('add.html', item=items, order=orders)
+
+
+@app.route('/change', methods=['GET', 'POST'])
+def change():
+    if not g.user:
+        return redirect(url_for('index'))
+    elif request.method == 'POST' and g.user.business == 'seller':
+        updated_id = int(request.form['updated_id'])
+        updated_description = request.form['updated_description']
+        updated_quantity = int(request.form['updated_quantity'])
+        updated_price = int(request.form['updated_price'])
+        updated_date = datetime.datetime.now()
+        updated_date = updated_date.strftime("%x")
+        for x in items:
+            print('updated_id:', updated_id)
+            #if x.item_id == updated_id:
+                #x.description = updated_description
+            if x.description == updated_description:
+                x.quantity = updated_quantity
+                x.price = updated_price
+                x.date = updated_date
+            if x.quantity == 0 or x.price == 0:
+                items.remove(x)
+        return render_template('add.html', item=items)
+    return render_template('add.html', item=items)
 
 
 @app.route('/profile', methods=['GET', 'POST'])
