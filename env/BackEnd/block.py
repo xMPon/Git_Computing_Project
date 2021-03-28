@@ -3,29 +3,25 @@ import time
 
 
 class Block(object):  # declare individual blocks
-    def __init__(self, index, proof_number, previous_hash, data, timestamp=None):
+    def __init__(self, index, nonce, previous_hash, data, timestamp=None):
         self.index = index
-        self.proof_number = proof_number
+        self.nonce = nonce
         self.previous_hash = previous_hash
         self.data = data
         self.timestamp = timestamp or time.time()
 
     @property
-    def compute_hash(self):
-        string_block = "{}{}{}{}{}".format(self.index,
-                                           self.proof_number,
+    def hash(self):
+        str_block = "{}{}{}{}{}".format(self.index,
+                                           self.nonce,
                                            self.previous_hash,
                                            self.data,
                                            self.timestamp)
-        return hashlib.sha256(string_block.encode()).hexdigest()
+        return hashlib.sha256(str_block.encode()).hexdigest()
 
     def __repr__(self):
         return "{} - {} - {} - {} - {}".format(self.index,
-                                               self.proof_number,
+                                               self.nonce,
                                                self.previous_hash,
                                                self.data,
                                                self.timestamp)
-
-
-# https://stackoverflow.com/questions/18980396/building-a-list-inside-a-list-in-python
-# needed to connect with the front end

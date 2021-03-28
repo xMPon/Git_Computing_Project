@@ -18,12 +18,13 @@
 				{% for x in item %}
 					{% if x['seller'] == g.user.email%}
 						<div class="row txt-sml h1 fl">
-							<div class="fl w11 txt-l">{{x['description']}}</div>
-							<div class="fl w3">{{x['quantity']}}</div>
-							<div class="fl w4">£{{x['price']}}</div>
+							<div style="display:none" name="check_id" id="check_id">{{x['item_id']}}</div>
+							<div class="fl w11 txt-l" name="check_description" id="check_description">{{x['description']}}</div>
+							<div class="fl w3" name="check_quantity" id="check_quantity">{{x['quantity']}}</div>
+							<div class="fl w4">£<label name="check_price" id="check_price">{{x['price']}}</label></div>
 							<div class="fl w4">{{x['date']}}</div>
 							<div class="fl w2">
-								<input type="checkbox" id="check" onclick="myFunction()">
+								<input type="radio" name="check" id="check" onclick="myFunction()">
 							</div>
 						</div>
 					{%endif%}
@@ -33,6 +34,7 @@
 			</div>
             <div class="w12 fl">	<!--Add Items for sale-->
 					<form action="/add" method="POST">
+						<a class="fl">Add New Item:</a>
 						<input class="ma btn h1 w20 m-sml border" type="text" name="description" placeholder="Item Description" required>
 						<input class="ma btn h1 w20 m-sml border" type="number" name="quantity" min="1" placeholder="Quantity" required>
 						<input class="ma btn h1 w20 m-sml border" type="number" name="price" min="1" placeholder="Price" required>
@@ -41,10 +43,11 @@
 					<br>
 					<br>
 					<form id="time_to_change" style="display:none" action="/change" method="POST">
-						<input style="display:none" type="hidden" name="retrieve_id" id="pass_it" value="item_id">
-						<input class="ma btn h1 w20 m-sml border" type="text" name="updated_description" placeholder="Type in the exact item description" required>
-						<input class="ma btn h1 w20 m-sml border" type="number" name="updated_quantity" placeholder="New Quantity" required>
-						<input class="ma btn h1 w20 m-sml border" type="number" name="updated_price" placeholder="New Price" required>
+						<a class="fl">Update Existing Item:</a>
+						<input style="display:none" type="hidden" name="updated_id" id="updated_id" required>
+						<input class="ma btn h1 w20 m-sml border" type="text" name="updated_description" id="updated_description" placeholder="Description" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="updated_quantity" id="updated_quantity" placeholder="Quantity" required>
+						<input class="ma btn h1 w20 m-sml border" type="number" name="updated_price" id="updated_price" placeholder="Price" required>
 						<button class="ma btn fr m-vlrg border" type="submit" id="change_submit">Update Item</button>
 					</form>
             </div>

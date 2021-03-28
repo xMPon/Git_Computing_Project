@@ -7,7 +7,7 @@
 	<div class="w24 h20 txt-c">
 		<div class="profile">
 		{% if 'user_id' in session%}
-			<h1>Type of the Business: {{g.user.business}}</h1>
+			<h1>{{g.user.business}}</h1>
 			<h1>Profile Username: {{g.user.email}}</h1>
 			<h1>Account Ewallet:  {{g.user.ewallet}}</h1>
 		{%else%}

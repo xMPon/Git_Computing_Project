@@ -1,9 +1,7 @@
 function myFunction() {
-  var checkBox = document.getElementById("check");
-  var time_to_change = document.getElementById("time_to_change");
-      if (checkBox.checked == true){
-      time_to_change.style.display = "block";
-      } else {
-         time_to_change.style.display = "none";
-         }
+  document.getElementById('time_to_change').style.display = "block";
+  document.getElementById('updated_id').value = document.getElementById('check_id').innerText;
+  document.getElementById('updated_description').value = document.getElementById('check_description').innerText;
+  document.getElementById('updated_quantity').value = document.getElementById('check_quantity').innerText;
+  document.getElementById('updated_price').value = document.getElementById('check_price').innerText;
 }

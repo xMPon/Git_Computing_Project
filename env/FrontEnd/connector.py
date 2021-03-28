@@ -7,6 +7,7 @@ from env.BackEnd.businesses import User
 from env.BackEnd.item import Item
 from datetime import timedelta
 import datetime
+import env.BackEnd.MaChain
 
 app = Flask(__name__)
 app.secret_key = '498hfg2rn29'
@@ -31,15 +32,9 @@ items.append(Item(item_id='10', seller='a@a', description='Sand', quantity=20, p
 items.append(Item(item_id='11', seller='b@b', description='Coal', quantity=10, price=199, date='02/12/21'))
 items.append(Item(item_id='12', seller='b@b', description='Iron', quantity=1000, price=50, date='02/12/21'))
 orders = []
-orders.append(
-    UsersData(seller='a@a', buyer='o@o', seller_wallet='WTDsdg43f23g2',
-              buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
-orders.append(
-    UsersData(seller='a@a', buyer='two@gmail.com', seller_wallet='WTDsdg43f23g2',
-              buyer_wallet='WTDsd34f3f3g43f23g2', item='Metal', quantity=20, price=300, date='02/12/21'))
-orders.append(
-    UsersData(seller='b@b', buyer='o@o', seller_wallet='f343f34f34f',
-              buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(UsersData(seller='a@a', buyer='o@o', seller_wallet='WTDsdg43f23g2', buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(UsersData(seller='a@a', buyer='two@gmail.com', seller_wallet='WTDsdg43f23g2', buyer_wallet='WTDsd34f3f3g43f23g2', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(UsersData(seller='b@b', buyer='o@o', seller_wallet='f343f34f34f', buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
 
 
 @app.before_request
@@ -186,10 +181,8 @@ def change():
         updated_date = datetime.datetime.now()
         updated_date = updated_date.strftime("%x")
         for x in items:
-            print('updated_id:', updated_id)
-            #if x.item_id == updated_id:
-                #x.description = updated_description
-            if x.description == updated_description:
+            if x.item_id == updated_id:
+                x.description = updated_description
                 x.quantity = updated_quantity
                 x.price = updated_price
                 x.date = updated_date
@@ -221,20 +214,20 @@ def out():
 
 
 @app.errorhandler(404)  # error 404 handler, redirect to this page and back
-def page_not_found_404():
+def page_not_found_404(e):
     return render_template("404.html")
 
 
 @app.errorhandler(405)  # error 405 handler, redirect to this page and back
-def page_not_found_405():
+def page_not_found_405(e):
     return render_template("405.html")
 
 
 @app.errorhandler(500)  # error 500 handler, redirect to this page and back
-def page_not_found_500():
+def page_not_found_500(e):
     return render_template("500.html")
 
 
 if __name__ == '__main__':
-    app.run(debug=True)  # delete debugging when finished
+    app.run()  # delete debugging when finished
     app.run(use_reloader=True)
