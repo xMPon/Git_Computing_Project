@@ -2,27 +2,16 @@ from env.BackEnd.block import Block
 
 
 class Chain:
-    difficulty = 20
-    maxN = 2**32
-    goal = 2**(256-difficulty)
-
     def __init__(self):
         self.chain = []
         self.current_data = [], [], []
         self.genesis()
 
     def genesis(self):  # create first block in the chain
-        self.build(nonce=0, previous_hash=0)
-
-    def build(self, nonce, previous_hash):  # establish block content
-        block = Block(
-            index=len(self.chain),
-            nonce=nonce,
-            previous_hash=previous_hash,
-            data=self.current_data)
-        self.current_data = [], [], []
-        self.chain.append(block)
-        return block
+        self.build(block=Block(index=len(self.chain),
+                               nonce=0,
+                               previous_hash=0x0,
+                               data=self.current_data))
 
     @staticmethod
     def validate(block, previous_block):
@@ -47,12 +36,25 @@ class Chain:
         return self.chain[-1]
 
     def mining(self):
-        last_block = self.latest_block
-        last_proof = last_block.nonce
-        nonce = self.proof(last_proof)
-        last_hash = last_block.previous_hash
-        block = self.build(nonce, last_hash)
-        return vars(block)
+        max_nonce = 2 ** 32
+        difficulty = 0
+        goal = 2 ** (256 - difficulty)
+        nonce = self.latest_block.nonce
+        for n in range(max_nonce):
+            last_hash = int(str(self.latest_block.hash), 16)
+            if last_hash <= goal:
+                block = Block(index=len(self.chain),
+                              nonce=nonce,
+                              previous_hash=last_hash,
+                              data=self.current_data)
+                return block
+            else:
+                nonce += 1
+                print(nonce)
+
+    def build(self, block):  # establish block content
+        self.chain.append(block)
+        return block
 
     @staticmethod
     def get_block(block_data):

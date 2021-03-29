@@ -7,34 +7,33 @@ from env.BackEnd.businesses import User
 from env.BackEnd.item import Item
 from datetime import timedelta
 import datetime
-import env.BackEnd.MaChain
 
 app = Flask(__name__)
 app.secret_key = '498hfg2rn29'
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 users = []
-users.append(User(business='seller', email='a@a', password='a', ewallet='WTDsdg43f23g2'))
-users.append(User(business='seller', email='b@b', password='b', ewallet='f343f34f34f'))
-users.append(User(business='buyer', email='o@o', password='o', ewallet='3f4d3d33f3f'))
-users.append(User(business='buyer', email='two@gmail.com', password='pass3', ewallet='WTDsd34f3f3g43f23g2'))
+users.append(User(business='seller', email='first@gmail.com', password='FirstPassword', ewallet='WTDsdg43f23g2'))
+users.append(User(business='seller', email='second@gmail.com', password='SecondPassword', ewallet='f343f34f34f'))
+users.append(User(business='buyer', email='third@gmail.com', password='ThirdPassword', ewallet='3f4d3d33f3f'))
+users.append(User(business='buyer', email='forth@gmail.com', password='ForthPassword', ewallet='WTDsd34f3f3g43f23g2'))
 items = []
-items.append(Item(item_id='1', seller='a@a', description='Metal', quantity=20, price=300, date='02/12/21'))
-items.append(Item(item_id='2', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='3', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='4', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='5', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='6', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='7', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='8', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='9', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='10', seller='a@a', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='11', seller='b@b', description='Coal', quantity=10, price=199, date='02/12/21'))
-items.append(Item(item_id='12', seller='b@b', description='Iron', quantity=1000, price=50, date='02/12/21'))
+items.append(Item(item_id='1', seller='first@gmail.com', description='Metal', quantity=20, price=300, date='02/12/21'))
+items.append(Item(item_id='2', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='3', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='4', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='5', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='6', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='7', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='8', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='9', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='10', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
+items.append(Item(item_id='11', seller='second@gmail.com', description='Coal', quantity=10, price=199, date='02/12/21'))
+items.append(Item(item_id='12', seller='second@gmail.com', description='Iron', quantity=1000, price=50, date='02/12/21'))
 orders = []
-orders.append(UsersData(seller='a@a', buyer='o@o', seller_wallet='WTDsdg43f23g2', buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
-orders.append(UsersData(seller='a@a', buyer='two@gmail.com', seller_wallet='WTDsdg43f23g2', buyer_wallet='WTDsd34f3f3g43f23g2', item='Metal', quantity=20, price=300, date='02/12/21'))
-orders.append(UsersData(seller='b@b', buyer='o@o', seller_wallet='f343f34f34f', buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(UsersData(seller='first@gmail.com', buyer='third@gmail.com', seller_wallet='WTDsdg43f23g2', buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(UsersData(seller='first@gmail.com', buyer='two@gmail.com', seller_wallet='WTDsdg43f23g2', buyer_wallet='WTDsd34f3f3g43f23g2', item='Metal', quantity=20, price=300, date='02/12/21'))
+orders.append(UsersData(seller='second@gmail.com', buyer='third@gmail.com', seller_wallet='f343f34f34f', buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
 
 
 @app.before_request
@@ -229,5 +228,5 @@ def page_not_found_500(e):
 
 
 if __name__ == '__main__':
-    app.run()  # delete debugging when finished
+    app.run()
     app.run(use_reloader=True)
