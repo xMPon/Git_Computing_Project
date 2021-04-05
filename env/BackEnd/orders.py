@@ -17,5 +17,5 @@ class UsersData(object):
         self.price = int(price)
         self.date = date
 
-    def __repr__(self):  # delete when finished to hide the data
+    def __repr__(self):
         return f'{self.seller} {self.buyer} {self.item} {self.quantity} {self.price} {self.date}'

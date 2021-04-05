@@ -1,66 +1,56 @@
-from env.BackEnd.block import Block
+from env.BackEnd.block import Block                                 # Import block structure
+import secrets                                                      # Import of hex n. generator
 
 
 class Chain:
     def __init__(self):
-        self.chain = []
-        self.current_data = [], [], []
-        self.genesis()
+        self.chain = []                                             # Create empty chain list
+        self.current_data = [], [], []                              # Create empty data lists
+        self.genesis()                                              # Create first block in the chain
 
-    def genesis(self):  # create first block in the chain
-        self.build(block=Block(index=len(self.chain),
-                               nonce=0,
-                               previous_hash=0x0,
-                               data=self.current_data))
+    def genesis(self):                                              # First block function
+        self.build(block=Block(index=len(self.chain),               # Index number in the chain
+                               nonce=0,                             # First nonce set to 0
+                               previous_hash=0x0,                   # There is no previous block
+                               data=self.current_data))             # Set empty lists
 
     @staticmethod
     def validate(block, previous_block):
-        if previous_block.index + 1 != block.index:  # validation by previous block
+        if previous_block.index + 1 != block.index:                 # Validation by previous block
             return False
-        elif previous_block.hash != block.previous_hash:  # if the previous block is different
+        elif previous_block.hash != block.previous_hash:            # If the previous block is different
             return False
-        elif block.timestamp <= previous_block.timestamp:  # validation by timestamp
+        elif block.timestamp <= previous_block.timestamp:           # Validation by timestamp
             return False
         return True
 
-    def get_data(self, users, items, orders):  # change this format to match the supply chain information
-        self.current_data = users, items, orders
+    def get_data(self, users, items, orders):                       # Change this format to match the supply chain information
+        self.current_data = users, items, orders                    # Append lists into current data
         return True
-
-    @staticmethod
-    def proof(self):
-        pass
 
     @property
-    def latest_block(self):  # Retrieve the last block
-        return self.chain[-1]
+    def last_block(self):
+        return self.chain[-1]                                       # Retrieve the last block in the list 'chain'
 
-    def mining(self):
-        max_nonce = 2 ** 32
-        difficulty = 0
-        goal = 2 ** (256 - difficulty)
-        nonce = self.latest_block.nonce
-        for n in range(max_nonce):
-            last_hash = int(str(self.latest_block.hash), 16)
-            if last_hash <= goal:
+    ###################################################################################################################
+    # The mining process has been interpreted from Tracey (2021), article on 'Building a Blockchain in Python'
+    # Available at: "https://medium.datadriveninvestor.com/building-a-blockchain-in-python-f194a26530fd"
+    # Accessed: 04 April 2021
+    def mining(self, max_nonce=2 ** 256):
+        nonce = 0
+        for n in range(max_nonce):                                  # Max Nonce = the largest possible number
+            difficulty = secrets.token_hex(2)                       # Random hex generator (max 3**35)
+            if self.last_block.hash.startswith(difficulty):
+                # Compares if the first 3 characters from the last hashed block are equal to the difficulty
                 block = Block(index=len(self.chain),
                               nonce=nonce,
-                              previous_hash=last_hash,
+                              previous_hash=self.last_block.hash,
                               data=self.current_data)
                 return block
             else:
-                nonce += 1
-                print(nonce)
+                nonce += 1                                          # Nonce counter used for the block nonce difficulty
+    ###################################################################################################################
 
-    def build(self, block):  # establish block content
-        self.chain.append(block)
+    def build(self, block):
+        self.chain.append(block)                                    # Adds the 'block' to the list 'chain'
         return block
-
-    @staticmethod
-    def get_block(block_data):
-        return Block(
-            block_data['index'],
-            block_data['nonce'],
-            block_data['previous_hash'],
-            block_data['data'],
-            timestamp=block_data['timestamp'])

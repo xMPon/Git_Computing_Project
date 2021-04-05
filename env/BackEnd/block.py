@@ -1,8 +1,8 @@
-import time
-import hashlib
+import time                 # Import time
+import hashlib              # Import SHA256
 
 
-class Block:  # declare individual blocks
+class Block:                # Block blueprint
     def __init__(self, index, nonce, previous_hash, data, timestamp=None):
         self.index = index
         self.nonce = nonce
@@ -12,16 +12,16 @@ class Block:  # declare individual blocks
 
     @property
     def hash(self):
-        str_block = "{}{}{}{}{}".format(str(self.index),
-                                        str(self.nonce),
-                                        str(self.previous_hash),
-                                        str(self.data),
-                                        str(self.timestamp))
-        return hashlib.sha256(str_block.encode()).hexdigest()
+        encrypted = "{}{}{}{}{}".format(self.index,
+                                        self.nonce,
+                                        self.previous_hash,
+                                        self.data,
+                                        self.timestamp)
+        return hashlib.sha256(encrypted.encode()).hexdigest()
 
     def __repr__(self):
-        return "{} - {} - {} - {} - {}".format(str(self.index),
-                                               str(self.nonce),
-                                               str(self.previous_hash),
-                                               str(self.data),
-                                               str(self.timestamp))
+        return "{} - {} - {} - {} - {}".format(self.index,
+                                               self.nonce,
+                                               self.previous_hash,
+                                               self.data,
+                                               self.timestamp)

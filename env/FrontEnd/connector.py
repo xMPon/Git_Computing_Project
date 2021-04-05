@@ -9,8 +9,8 @@ from datetime import timedelta
 import datetime
 
 app = Flask(__name__)
-app.secret_key = '498hfg2rn29'
-app.permanent_session_lifetime = timedelta(minutes=10)
+app.secret_key = '498hfg2rn29'                              # Required secret key for the app
+app.permanent_session_lifetime = timedelta(minutes=10)      # Time which will take to close inactive session
 
 users = []
 users.append(User(business='seller', email='first@gmail.com', password='FirstPassword', ewallet='WTDsdg43f23g2'))
@@ -27,9 +27,8 @@ items.append(Item(item_id='6', seller='first@gmail.com', description='Sand', qua
 items.append(Item(item_id='7', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
 items.append(Item(item_id='8', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
 items.append(Item(item_id='9', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='10', seller='first@gmail.com', description='Sand', quantity=20, price=100, date='02/12/21'))
-items.append(Item(item_id='11', seller='second@gmail.com', description='Coal', quantity=10, price=199, date='02/12/21'))
-items.append(Item(item_id='12', seller='second@gmail.com', description='Iron', quantity=1000, price=50, date='02/12/21'))
+items.append(Item(item_id='10', seller='second@gmail.com', description='Coal', quantity=10, price=199, date='02/12/21'))
+items.append(Item(item_id='11', seller='second@gmail.com', description='Iron', quantity=1000, price=50, date='02/12/21'))
 orders = []
 orders.append(UsersData(seller='first@gmail.com', buyer='third@gmail.com', seller_wallet='WTDsdg43f23g2', buyer_wallet='3f4d3d33f3f', item='Metal', quantity=20, price=300, date='02/12/21'))
 orders.append(UsersData(seller='first@gmail.com', buyer='two@gmail.com', seller_wallet='WTDsdg43f23g2', buyer_wallet='WTDsd34f3f3g43f23g2', item='Metal', quantity=20, price=300, date='02/12/21'))
@@ -92,7 +91,6 @@ def register():
 @app.route('/choice', methods=['GET', 'POST'])
 def choice():
     if request.method == 'POST':
-        #  ...if check the list for email and business = "" (dead link from login)
         if request.form['submit_button'] == 'buyer':
             users.append(User(business='buyer',
                               email=n_email,
