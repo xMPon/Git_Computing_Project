@@ -9,5 +9,5 @@ class User:
         self.password = password
         self.ewallet = ewallet
 
-    def __repr__(self):  # delete when finished to hide the data
+    def __repr__(self):
         return f'{self.email}'

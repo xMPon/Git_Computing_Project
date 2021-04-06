@@ -11,7 +11,7 @@ class Block:                # Block blueprint
         self.timestamp = timestamp or time.time()
 
     @property
-    def hash(self):
+    def hash(self):         # function for block encryption
         encrypted = "{}{}{}{}{}".format(self.index,
                                         self.nonce,
                                         self.previous_hash,
